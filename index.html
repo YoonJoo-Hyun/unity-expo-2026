@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="유니티 실습 과제전 2026 · 12.17–12.18 · VS관 209호">
-<title>유니티 실습 과제전 2026</title>
+<title>널(NULL) · 유니티 실습 과제전 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap">
 <style>
@@ -34,8 +34,10 @@ body{background:var(--ground);color:var(--ink);font-family:var(--f-body);margin:
 .eyebrow{font-family:var(--f-mono);font-size:3.1cqw;letter-spacing:.16em;color:var(--faint)}
 hr{border:0;border-top:.7cqw dashed var(--rule);margin:0;width:100%}
 
-.head h1{font-family:var(--f-display);font-weight:400;font-size:13.2cqw;line-height:1.08;margin:4cqw 0 4cqw;letter-spacing:-.02em}
+.head h1{font-family:var(--f-display);font-weight:400;font-size:13.2cqw;line-height:1.08;margin:8cqw 0 4cqw;letter-spacing:-.02em}
 .head h1 em{font-style:normal;background:linear-gradient(transparent 58%,var(--mark) 58%)}
+.head h1 .t{display:inline-block;position:relative;background:var(--ink);color:var(--paper);padding:.4cqw 3cqw 1.4cqw;margin:0 0 2.4cqw;transform:rotate(-2deg);box-shadow:1.2cqw 1.2cqw 0 var(--mark)}
+.head h1 .t::before{content:"TITLE";position:absolute;top:-4.2cqw;left:0;font-family:var(--f-mono);font-size:2.8cqw;letter-spacing:.2em;color:var(--faint);transform:rotate(2deg)}
 .title{display:inline-block;border:.7cqw solid var(--ink);padding:1.6cqw 4cqw;font-family:var(--f-mono);font-weight:700;font-size:4.4cqw;letter-spacing:.04em}
 
 .lines{list-style:none;margin:0;padding:0;display:grid;gap:2.4cqw}
@@ -108,7 +110,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--stamp);outline-offs
 <main class="banner">
   <section class="head center">
     <div class="eyebrow">영수증 · RECEIPT · 환불불가</div>
-    <h1>게임 8개<br>만드느라<br><em>잠은 못</em><br><em>샀습니다</em></h1>
+    <h1><span class="t">널(NULL)</span><br>만드느라<br><em>잠은 못</em><br><em>샀습니다</em></h1>
     <div class="title">유니티 실습 과제전 2026</div>
   </section>
 
