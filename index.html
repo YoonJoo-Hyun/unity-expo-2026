@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="유니티 실습 과제전 2026 · 12.17–12.18 · VS관 209호">
+<title>유니티 실습 과제전 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: 현수막과 같은 영수증 한 장을 폰 폭에 맞춰 세로로 이어 붙임 — 헤더·항목·합계 → 일시·장소 → 퀘스트(지도+체크) → 게임 8종. cqw 단위로 현수막 비율 그대로 */
+:root{
+  --paper:#FBFBF7; --ground:#E4E6E2; --ink:#20232A; --faint:#6E737A;
+  --rule:#BFC2BF; --stamp:#D93A2B; --mark:#FFE14D;
+  --f-display:"Black Han Sans","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-mono:"JetBrains Mono","IBM Plex Sans KR",ui-monospace,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+img{max-width:100%}
+body{background:var(--ground);color:var(--ink);font-family:var(--f-body);margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 40px}
+.spec{max-width:520px;margin:0 auto 10px;font-family:var(--f-mono);font-size:11px;color:var(--faint);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.wrap{width:min(100%,520px);margin:0 auto;container-type:inline-size}
+.banner{max-width:100%;gap:7cqw;background:var(--paper);position:relative;
+  padding:9cqw 7.5cqw 8cqw;display:flex;flex-direction:column;justify-content:space-between;
+  box-shadow:0 2px 0 var(--rule),0 30px 60px -30px rgba(32,35,42,.5)}
+.banner::after{content:"";position:absolute;left:0;right:0;bottom:-2.6cqw;height:2.6cqw;
+  background:linear-gradient(-45deg,transparent 1.8cqw,var(--paper) 0) 0 0/3.6cqw 2.6cqw,linear-gradient(45deg,transparent 1.8cqw,var(--paper) 0) 0 0/3.6cqw 2.6cqw}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.center{text-align:center}
+.eyebrow{font-family:var(--f-mono);font-size:3.1cqw;letter-spacing:.16em;color:var(--faint)}
+hr{border:0;border-top:.7cqw dashed var(--rule);margin:0;width:100%}
+
+.head h1{font-family:var(--f-display);font-weight:400;font-size:13.2cqw;line-height:1.08;margin:4cqw 0 4cqw;letter-spacing:-.02em}
+.head h1 em{font-style:normal;background:linear-gradient(transparent 58%,var(--mark) 58%)}
+.title{display:inline-block;border:.7cqw solid var(--ink);padding:1.6cqw 4cqw;font-family:var(--f-mono);font-weight:700;font-size:4.4cqw;letter-spacing:.04em}
+
+.lines{list-style:none;margin:0;padding:0;display:grid;gap:2.4cqw}
+.lines li{display:flex;gap:2cqw;align-items:baseline;font-family:var(--f-mono);font-size:4.5cqw}
+.lines li i{flex:1;border-bottom:.45cqw dotted var(--rule);transform:translateY(-1.2cqw)}
+.lines li b{white-space:nowrap}
+.lines li.note{font-size:3.3cqw;color:var(--faint);padding-left:4cqw;margin-top:-1.2cqw}
+.totals{position:relative}
+.total{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--f-mono);font-weight:700;font-size:7.2cqw}
+.total.sub{font-size:3.8cqw;font-weight:400;color:var(--faint);margin-top:1.2cqw}
+.stamp{position:absolute;right:-1cqw;top:-19cqw;transform:rotate(-12deg);border:.9cqw solid var(--stamp);color:var(--stamp);
+  font-family:var(--f-display);font-size:6cqw;line-height:1.1;padding:1.4cqw 3cqw;border-radius:1.6cqw;text-align:center;opacity:.9}
+.stamp small{display:block;font-family:var(--f-mono);font-size:2.4cqw;letter-spacing:.1em}
+
+.meta{display:grid;grid-template-columns:auto 1fr;gap:2.2cqw 5cqw;margin:0;align-items:baseline}
+.meta dt{font-family:var(--f-mono);font-size:3.6cqw;color:var(--faint)}
+.meta dd{margin:0;font-family:var(--f-display);font-size:7.4cqw;line-height:1.15}
+.meta dd small{display:block;font-family:var(--f-body);font-size:3.6cqw;font-weight:600;color:var(--faint);margin-top:.6cqw}
+
+.quest h2{font-family:var(--f-display);font-weight:400;font-size:10cqw;line-height:1.1;margin:1.5cqw 0 5cqw}
+.qrbox{display:grid;grid-template-columns:44cqw 1fr;gap:5cqw;align-items:center}
+.qr{border:.9cqw solid var(--ink);padding:3cqw;background:#FFFFFF;position:relative}
+.qr svg{display:block;width:100%;height:auto}
+.qr::before{content:"SCAN";position:absolute;top:-3.6cqw;left:2cqw;background:var(--stamp);color:#FFFFFF;font-family:var(--f-mono);font-weight:700;font-size:2.8cqw;padding:.6cqw 2cqw;letter-spacing:.1em}
+.qrtext{font-size:4.1cqw;line-height:1.5;font-weight:600}
+.qrtext span{display:block;font-weight:400;color:var(--faint);font-size:3.4cqw;margin-top:1.6cqw}
+.steps{list-style:none;margin:6cqw 0 0;padding:0;display:grid;gap:3cqw}
+.steps li{display:grid;grid-template-columns:7.5cqw 1fr;gap:3.5cqw;align-items:center;font-size:4.6cqw;font-weight:600;line-height:1.35}
+.steps .box{width:7.5cqw;height:7.5cqw;border:.7cqw solid var(--ink);display:grid;place-items:center;font-family:var(--f-mono);font-weight:700;font-size:4cqw}
+.reward{margin-top:5cqw;border:.6cqw dashed var(--ink);padding:2.6cqw 3.5cqw;font-size:3.6cqw;line-height:1.45}
+
+.foot .barcode{height:11cqw;margin:0 auto 2.4cqw;width:62cqw;
+  background:repeating-linear-gradient(90deg,var(--ink) 0 .5cqw,transparent .5cqw 1cqw,var(--ink) 1cqw 1.25cqw,transparent 1.25cqw 2.25cqw,var(--ink) 2.25cqw 3cqw,transparent 3cqw 3.5cqw)}
+.foot p{margin:0;font-family:var(--f-mono);font-size:3cqw;color:var(--faint);line-height:1.5}
+
+.nav{display:grid;grid-template-columns:1fr 1fr;gap:2.4cqw}
+.nav a{display:block;text-align:center;text-decoration:none;color:var(--ink);border:.7cqw solid var(--ink);padding:3cqw 1cqw;font-weight:600;font-size:4cqw}
+.nav a:first-child{background:var(--ink);color:var(--paper)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--stamp);outline-offset:2px}
+.mapimg{border:.7cqw solid var(--ink);aspect-ratio:4/3;max-width:100%;position:relative;overflow:hidden;margin-bottom:5cqw;
+  background:repeating-linear-gradient(-45deg,var(--paper) 0 2cqw,#EFF0EB 2cqw 4cqw)}
+.mapimg img{width:100%;height:100%;object-fit:cover;display:block}
+.ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-family:var(--f-mono);font-size:3.2cqw;color:var(--faint);padding:3cqw;line-height:1.5}
+.steps button{width:100%;display:grid;grid-template-columns:7.5cqw 1fr;gap:3.5cqw;align-items:center;text-align:left;background:transparent;border:0;padding:0;font:inherit;color:inherit;cursor:pointer}
+.steps .hint{display:block;font-weight:400;font-size:3.3cqw;color:var(--faint);margin-top:.4cqw}
+.steps button[aria-pressed="true"] .box{background:var(--ink);color:var(--paper)}
+.steps button[aria-pressed="true"] .txt{text-decoration:line-through;text-decoration-color:var(--stamp);text-decoration-thickness:.6cqw}
+.prog{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:3.3cqw;margin-top:5cqw}
+.bar{height:2.4cqw;border:.4cqw solid var(--ink);margin-top:1.2cqw}
+.bar span{display:block;height:100%;background:var(--mark);width:0;transition:width .3s}
+.reward[data-done="true"]{background:var(--mark)}
+.games h2{font-family:var(--f-display);font-weight:400;font-size:10cqw;line-height:1.1;margin:1.5cqw 0 1.5cqw;text-wrap:balance}
+.games .lead{margin:0 0 5cqw;font-size:3.6cqw;color:var(--faint)}
+.glist{display:grid;gap:7cqw}
+.game{display:grid;gap:2.4cqw;min-width:0}
+.vid{aspect-ratio:16/9;max-width:100%;border:.7cqw solid var(--ink);position:relative;overflow:hidden;background:var(--ink)}
+.vid video,.vid img{width:100%;height:100%;object-fit:cover;display:block}
+.vid .ph{background:repeating-linear-gradient(-45deg,var(--paper) 0 2cqw,#EFF0EB 2cqw 4cqw)}
+.no{position:absolute;left:0;top:0;z-index:1;background:var(--ink);color:var(--paper);font-family:var(--f-mono);font-weight:700;font-size:3cqw;padding:.6cqw 2cqw}
+.grow{display:flex;justify-content:space-between;align-items:baseline;gap:3cqw;min-width:0}
+.game h3{font-family:var(--f-display);font-weight:400;font-size:6.4cqw;line-height:1.2;margin:0;min-width:0;overflow-wrap:anywhere}
+.team{font-family:var(--f-mono);font-size:3.4cqw;color:var(--faint);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<main class="banner">
+  <section class="head center">
+    <div class="eyebrow">영수증 · RECEIPT · 환불불가</div>
+    <h1>게임 8개<br>만드느라<br><em>잠은 못</em><br><em>샀습니다</em></h1>
+    <div class="title">유니티 실습 과제전 2026</div>
+  </section>
+
+  <hr>
+
+  <section>
+    <ul class="lines">
+      <li><span>컵라면</span><i></i><b>× 214</b></li>
+      <li><span>아메리카노 샷추가</span><i></i><b>× 389</b></li>
+      <li><span>삼각김밥</span><i></i><b>× 97</b></li>
+      <li><span>수면</span><i></i><b>× 0</b></li>
+      <li><span>"이거 금방 해요"</span><i></i><b>× 61</b></li>
+      <li><span>발생한 버그</span><i></i><b>× 1,402</b></li>
+      <li class="note">└ 고친 것 1,365 / 기능이라 우기는 중 37</li>
+      <li><span>커밋 "진짜최종"</span><i></i><b>× 23</b></li>
+    </ul>
+  </section>
+
+  <section class="totals">
+    <div class="stamp">구경 무료<small>NO REFUND · NO SLEEP</small></div>
+    <div class="total"><span>합계</span><span>게임 8개</span></div>
+    <div class="total sub"><span>결제수단</span><span>학점 일시불</span></div>
+  </section>
+
+  <hr>
+
+  <dl class="meta">
+    <dt>일시</dt><dd>12.17 – 12.18<small>17일(목) 15:00 ~ 18일(금) 16:00</small></dd>
+    <dt>장소</dt><dd>VS관 209호<small>입장료 0원 · 피땀은 이미 결제됨</small></dd>
+  </dl>
+
+  <nav class="nav" aria-label="바로가기">
+    <a href="#way">전공실 찾아가기</a>
+    <a href="#games">게임 8개 보기</a>
+  </nav>
+
+  <hr>
+
+  <section class="quest" id="way">
+    <div class="eyebrow">메인 퀘스트</div>
+    <h2>전공실을 찾아라</h2>
+    <div class="mapimg" id="mapimg"></div>
+    <ol class="steps" id="steps"></ol>
+    <div class="prog"><span>진행도</span><span id="pct">0 / 3</span></div>
+    <div class="bar"><span id="barfill"></span></div>
+    <div class="reward" id="reward"></div>
+  </section>
+
+  <hr>
+
+  <section class="games" id="games">
+    <div class="eyebrow">구매 품목 상세 · 8 ITEMS</div>
+    <h2>출시 전입니다.<br>아마 터집니다.</h2>
+    <p class="lead">나머지는 209호에서 직접 플레이해 보세요.</p>
+    <div class="glist" id="glist"></div>
+  </section>
+
+  <section class="foot center">
+    <div class="barcode" aria-hidden="true"></div>
+    <p>이 페이지도 마감 전날 만들었습니다<br>UNITY-LAB-EXPO-2026</p>
+  </section>
+</main>
+</div>
+
+<script>
+/* ===== 내용 수정은 여기서 =====
+   MAP_IMG: 오시는 길 이미지 / video: 짧은 mp4 / thumb: 영상 썸네일(영상 없으면 이 이미지만 표시) */
+const MAP_IMG = "";  // 예: "assets/map.jpg"
+const GAMES = [
+  {title:"게임 제목 1", team:"팀명", video:"", thumb:""},  // 예: video:"assets/game01.mp4", thumb:"assets/game01.jpg"
+  {title:"게임 제목 2", team:"팀명", video:"", thumb:""},
+  {title:"게임 제목 3", team:"팀명", video:"", thumb:""},
+  {title:"게임 제목 4", team:"팀명", video:"", thumb:""},
+  {title:"게임 제목 5", team:"팀명", video:"", thumb:""},
+  {title:"게임 제목 6", team:"팀명", video:"", thumb:""},
+  {title:"게임 제목 7", team:"팀명", video:"", thumb:""},
+  {title:"게임 제목 8", team:"팀명", video:"", thumb:""}
+];
+const QUEST = [
+  {step:"신기숙사에 붙어 있는 VS관으로 입장", hint:"기숙사 말고, 바로 붙어 있는 그 건물"},
+  {step:"주차장보다 한 층 위로", hint:"주차장 층에서 내리면 차만 구경합니다"},
+  {step:"건물 한가운데, 209호", hint:"복도 끝까지 갔다면 지나친 겁니다"}
+];
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+document.getElementById('mapimg').innerHTML = MAP_IMG
+  ? `<img src="${esc(MAP_IMG)}" alt="VS관 209호 오시는 길">`
+  : `<div class="ph">오시는 길 이미지<br>준비 중입니다</div>`;
+
+document.getElementById('glist').innerHTML = GAMES.map((g,i)=>{
+  const m = g.video
+    ? `<video src="${esc(g.video)}" ${g.thumb?`poster="${esc(g.thumb)}"`:''} muted loop playsinline controls preload="metadata"></video>`
+    : g.thumb ? `<img src="${esc(g.thumb)}" alt="${esc(g.title)} 화면">`
+    : `<div class="ph">플레이 영상<br>렌더링 중…</div>`;
+  return `<article class="game"><div class="vid"><span class="no">#${String(i+1).padStart(2,'0')}</span>${m}</div>
+    <div class="grow"><h3>${esc(g.title)}</h3><span class="team">${esc(g.team)}</span></div></article>`;
+}).join('');
+
+const stepsEl=document.getElementById('steps');
+let done=[];
+try{done=JSON.parse(localStorage.getItem('quest')||'[]').filter(n=>n<QUEST.length)}catch(e){done=[]}
+function render(){
+  stepsEl.innerHTML=QUEST.map((q,i)=>`<li><button type="button" id="q${i}" data-i="${i}" aria-pressed="${done.includes(i)}">
+    <span class="box">${done.includes(i)?'✓':i+1}</span><span><span class="txt">${esc(q.step)}</span><span class="hint">${esc(q.hint)}</span></span></button></li>`).join('');
+  const n=done.length,t=QUEST.length;
+  document.getElementById('pct').textContent=`${n} / ${t}`;
+  document.getElementById('barfill').style.width=(n/t*100)+'%';
+  const r=document.getElementById('reward');
+  r.dataset.done=String(n===t);
+  r.innerHTML=n===t?'🏆 퀘스트 클리어! 문 열고 들어오세요.<br>개발자들이 반갑게(퀭하게) 맞이합니다.':'🏆 보상: 미출시 게임 8종 무료 플레이<br>+ 개발자의 퀭한 눈 실물 관람';
+}
+stepsEl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const i=+b.dataset.i;
+  done=done.includes(i)?done.filter(x=>x!==i):[...done,i];
+  try{localStorage.setItem('quest',JSON.stringify(done))}catch(e){}
+  render();});
+render();
+</script>
+
+</body>
+</html>
