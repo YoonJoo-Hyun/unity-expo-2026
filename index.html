@@ -2,6 +2,9 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="light">
+<meta name="theme-color" content="#FFFFFF">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="유니티 실습 과제전 2026 · 12.17–12.18 · VS관 209호">
 <title>널(NULL) · 유니티 실습 과제전 2026</title>
@@ -10,14 +13,15 @@
 <style>
 /* Layout: 현수막과 같은 영수증 한 장을 폰 폭에 맞춰 세로로 이어 붙임 — 헤더·항목·합계 → 일시·장소 → 퀘스트(지도+체크) → 게임 8종. cqw 단위로 현수막 비율 그대로 */
 :root{
-  --paper:#FBFBF7; --ground:#E4E6E2; --ink:#20232A; --faint:#6E737A;
+  --paper:#FBFBF7; --ground:#FFFFFF; --ink:#20232A; --faint:#6E737A;
   --rule:#BFC2BF; --stamp:#D93A2B; --mark:#FFE14D;
   --f-display:"Black Han Sans","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   --f-mono:"JetBrains Mono","IBM Plex Sans KR",ui-monospace,monospace;
-  color-scheme:light;
+  color-scheme:only light;
 }
 *{box-sizing:border-box}
+html{background:#FFFFFF}
 html{-webkit-text-size-adjust:100%}
 img{max-width:100%}
 body{background:var(--ground);color:var(--ink);font-family:var(--f-body);margin:0;
