@@ -166,11 +166,11 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--stamp);outline-offs
   <section class="quest" id="way">
     <div class="eyebrow">메인 퀘스트</div>
     <h2>전공실을 찾아라</h2>
-    <div class="map"><iframe title="목원대학교 VS관 위치 지도" src="https://maps.google.com/maps?q=%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%84%9C%EA%B5%AC%20%EB%8F%84%EC%95%88%EB%B6%81%EB%A1%9C%2088%20%EB%AA%A9%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90&z=16&hl=ko&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
-    <div class="addr"><span>대전광역시 서구 도안북로 88<br>목원대학교 VS관 209호</span><button type="button" id="copyAddr">주소 복사</button></div>
+    <div class="map"><iframe title="목원대학교 VS관 위치 지도" src="https://maps.google.com/maps?q=%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%84%9C%EA%B5%AC%20%EB%8F%84%EC%95%88%EB%8F%99%201559%20VS%EA%B4%80&z=16&hl=ko&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+    <div class="addr"><span>대전광역시 서구 도안동 1559<br>목원대학교 VS관 209호</span><button type="button" id="copyAddr">주소 복사</button></div>
     <div class="maplinks">
-      <a class="nv" href="https://map.naver.com/p/search/%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%84%9C%EA%B5%AC%20%EB%8F%84%EC%95%88%EB%B6%81%EB%A1%9C%2088" target="_blank" rel="noopener">네이버 지도로 열기</a>
-      <a class="kk" href="https://map.kakao.com/link/search/%EB%AA%A9%EC%9B%90%EB%8C%80%ED%95%99%EA%B5%90" target="_blank" rel="noopener">카카오맵으로 열기</a>
+      <a class="nv" href="https://map.naver.com/p/search/%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%84%9C%EA%B5%AC%20%EB%8F%84%EC%95%88%EB%8F%99%201559" target="_blank" rel="noopener">네이버 지도로 열기</a>
+      <a class="kk" href="https://map.kakao.com/link/search/%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%84%9C%EA%B5%AC%20%EB%8F%84%EC%95%88%EB%8F%99%201559" target="_blank" rel="noopener">카카오맵으로 열기</a>
     </div>
     <div class="mapimg" id="mapimg"></div>
     <ol class="steps" id="steps"></ol>
@@ -216,7 +216,7 @@ const QUEST = [
 ];
 
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-document.getElementById('copyAddr').addEventListener('click',e=>{const t='대전광역시 서구 도안북로 88 목원대학교 VS관 209호';const b=e.currentTarget;
+document.getElementById('copyAddr').addEventListener('click',e=>{const t='대전광역시 서구 도안동 1559 목원대학교 VS관 209호';const b=e.currentTarget;
   const done=()=>{b.textContent='복사됨';setTimeout(()=>b.textContent='주소 복사',1500)};
   (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(done).catch(()=>{const r=document.createElement('textarea');r.value=t;document.body.appendChild(r);r.select();try{document.execCommand('copy');done()}catch(_){}r.remove()});});
 if(!MAP_IMG) document.getElementById('mapimg').hidden=true;
